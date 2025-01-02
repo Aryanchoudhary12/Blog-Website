@@ -18,6 +18,15 @@ import multer from 'multer';
 // });
 // db.connect();
 
+// const db = new pg.Client({
+//     user: "postgres_oki3_user",
+//     host: "dpg-ctr8auq3esus73baavl0-a.oregon-postgres.render.com",
+//     database: "postgres_oki3",
+//     password: "dhAeIOINDdjAPGR9hhtCeINHQbm167p2",
+//     port: 5432,
+// });
+// db.connect();
+
 const db = new pg.Client({
   connectionString: process.env.DATABASE_URL, 
   ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false, // Enable SSL in production
