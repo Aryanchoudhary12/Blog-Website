@@ -20,7 +20,8 @@ import multer from 'multer';
 
 const db = new pg.Client({
   connectionString: process.env.DATABASE_URL, 
-  ssl: { rejectUnauthorized: false }, 
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false, // Enable SSL in production
+
 });
 
 db.connect()
