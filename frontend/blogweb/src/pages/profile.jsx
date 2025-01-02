@@ -57,7 +57,7 @@ function Profile() {
   };
 
   useEffect(() => {
-    Axios.post("http://localhost:4000/profile", {
+    Axios.post("https://blog-website-3-1pha.onrender.com/profile", {
       user: user,
     })
       .then((response) => {
@@ -76,7 +76,7 @@ function Profile() {
   }, []);
 
   useEffect(() => {
-    Axios.post("http://localhost:4000/profile/posts", {
+    Axios.post("https://blog-website-3-1pha.onrender.com/profile/posts", {
       user: user,
     })
       .then((response) => {

@@ -7,7 +7,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 const app = express();
-const port = 4000;
+const port =process.env.PORT|| 4000;
 import multer from 'multer';
 // const db = new pg.Client({
 //     user: "postgres",
