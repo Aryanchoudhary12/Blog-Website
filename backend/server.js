@@ -3,17 +3,31 @@ import bodyParser from 'body-parser';
 import pg from 'pg';
 import cors from "cors";
 import path from 'path';
+import dotenv from 'dotenv';
+
+dotenv.config();
 const app = express();
 const port = 4000;
 import multer from 'multer';
+// const db = new pg.Client({
+//     user: "postgres",
+//     host: "localhost",
+//     database: "blogging website",
+//     password: "aryan@123",
+//     port: 5432,
+// });
+// db.connect();
+
 const db = new pg.Client({
-    user: "postgres",
-    host: "localhost",
-    database: "blogging website",
-    password: "aryan@123",
-    port: 5432,
+  connectionString: process.env.DATABASE_URL, // Use the DATABASE_URL from .env
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false, // Enable SSL in production
 });
-db.connect();
+
+// Connect to the database
+db.connect()
+  .then(() => console.log('Connected to the PostgreSQL database'))
+  .catch(err => console.error('Database connection error:', err));
+
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
