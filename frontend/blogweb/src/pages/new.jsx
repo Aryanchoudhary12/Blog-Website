@@ -33,7 +33,7 @@ function New() {
     formData.append("title", title);
     formData.append("type", type);
     formData.append("content", content);
-    Axios.post("http://localhost:4000/new", formData, {
+    Axios.post("https://blog-website-3-1pha.onrender.com/new", formData, {
       headers: { "Content-Type": "multipart/form-data" },
     })
       .then((response) => {

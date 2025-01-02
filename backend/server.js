@@ -19,11 +19,10 @@ import multer from 'multer';
 // db.connect();
 
 const db = new pg.Client({
-  connectionString: process.env.DATABASE_URL, // Use the DATABASE_URL from .env
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false, // Enable SSL in production
+  connectionString: process.env.DATABASE_URL, 
+  ssl: { rejectUnauthorized: false }, 
 });
 
-// Connect to the database
 db.connect()
   .then(() => console.log('Connected to the PostgreSQL database'))
   .catch(err => console.error('Database connection error:', err));
@@ -76,25 +75,7 @@ app.post("/signin",async(req,res)=>{
     res.status(500).json({ success: false, message: 'Server error' });
   }
 
-//  const database = ' SELECT * FROM userid WHERE username = $1 AND password = $2 ' 
-//    const Values = [sentusername , sentPassword]
 
-//    db.query(database , Values,(err,results)=>{
-
-//      if(err){
-//        res.send(err);
-//        console.log("error");
-//      }
-//      if( results.length > 0){
-//        res.send(results);
-//      }
-//      else{
-//        res.send("Credentials don't found");
-//        console.log("Credentials don't found");
-//        console.log(sentusername);
-//        console.log(sentPassword);
-//      }
-//    })
 })
 
 const storage = multer.diskStorage({
@@ -194,5 +175,5 @@ app.post("/profile/posts",async(req,res)=>{
 });
 
 app.listen(port,()=>{
-    console.log(`listening on the port ${port}`);
+  console.log("App is listening on port:", process.env.PORT);
 })

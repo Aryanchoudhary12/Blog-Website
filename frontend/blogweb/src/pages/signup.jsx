@@ -25,7 +25,7 @@ function Signup() {
   }
   const handlesubmit = (event) => {
     event.preventDefault();
-    Axios.post("http://localhost:4000/signup", {
+    Axios.post("https://blog-website-3-1pha.onrender.com/signup", {
       email: email,
       username: username,
       password: password,

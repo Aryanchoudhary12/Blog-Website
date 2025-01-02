@@ -32,7 +32,7 @@ function Blogs() {
   const [noofpost, setnoofpost] = useState(0);
   let reqpostlen = 0;
   useEffect(() => {
-    Axios.post("http://localhost:4000/blogs", {})
+    Axios.post("https://blog-website-3-1pha.onrender.com/blogs", {})
       .then((response) => {
         if (response.data.message) {
           setpost(false);
