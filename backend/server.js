@@ -4,7 +4,7 @@ import pg from 'pg';
 import cors from "cors";
 import path from 'path';
 const app = express();
-const port = 4000;
+const port = process.env.PORT;
 import multer from 'multer';
 const db = new pg.Client({
     user: "postgres",
