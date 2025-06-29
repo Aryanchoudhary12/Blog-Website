@@ -114,6 +114,7 @@ function Header() {
                       <Link
                         to="/signup"
                         className="text-base text-slate-100 font-semibold  w-full"
+                        onClick={handleclick}
                       >
                         <div className="w-full border p-3 hover:bg-slate-700">
                           Sign out

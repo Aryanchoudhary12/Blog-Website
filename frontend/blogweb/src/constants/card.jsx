@@ -1,6 +1,39 @@
-import landscape from "@/assets/mountains.png";
-import { Book, Box, ListCheck } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ListCheck } from "lucide-react";
+import { useNavigate } from 'react-router-dom';
+import Axios from "axios";
+import Swal from "sweetalert2";
 function Cards(props) {
+  const navigate = useNavigate();
+  const handleEdit = () => {
+    navigate(`/new?id=${props.client}`); // Pass the ID as a query parameter
+  };
+
+  const handleDelete = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "This action will permanently delete the blog post.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Axios.delete(`http://localhost:4000/blogs/${props.client}`)
+          .then(() => {
+            Swal.fire("Deleted!", "The blog post has been deleted.", "success");
+            if (props.onDelete) {
+              props.onDelete(props.client); 
+            }
+            navigate(0);
+          })
+          .catch((error) => {
+            console.error("Error deleting blog:", error);
+            Swal.fire("Error!", "Failed to delete the blog post.", "error");
+          });
+      }
+    });
+  };
   return (
     <div className="flex flex-col items-center bg-[#4e4d4d] p-3 rounded-lg w-60 shadow-md shadow-black/70">
       <div className="w-full">
@@ -25,6 +58,11 @@ function Cards(props) {
         </div>
         <p className="ml-1 italic text-slate-300 font-semibold text-sm ">Description :</p>
         <p className="ml-1 font-semibold text-sm text-slate-50 w-11/12 mb-4">{props.content}</p>
+      </div>
+      <div className="flex row gap-3 h-full items-end">
+      <Button  onClick={handleEdit}>Edit</Button>
+      <Button  variant="outline" onClick={handleDelete}>Delete</Button>
+
       </div>
     </div>
   );

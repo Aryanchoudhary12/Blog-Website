@@ -34,6 +34,10 @@ const router = createBrowserRouter([
     path: "/profile",
     element:<Profile/>,
   }, {
+    path: "/new/:id",
+    element:<New/>,
+  },
+  , {
     path: "/new",
     element:<New/>,
   },

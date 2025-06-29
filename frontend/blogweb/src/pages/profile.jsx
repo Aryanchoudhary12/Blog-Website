@@ -7,6 +7,7 @@ import { useMyContext } from "./context";
 import Cards from "../constants/card";
 import { PlusIcon, CableCar  } from "lucide-react";
 import { HomeIcon } from "@radix-ui/react-icons";
+import { useNavigation } from "react-router-dom";
 import {
   Accordion,
   AccordionContent,
@@ -25,12 +26,11 @@ import {
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
-  PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import Header from "@/constants/header";
 
 function Profile() {
   const [post, setpost] = useState(false);
@@ -44,12 +44,13 @@ function Profile() {
   const rowperpage = 8;
   const [endindex, setendindex] = useState(rowperpage);
   const [startindex, setstartindex] = useState(0);
-
+  const navigate = useNavigation();
   let reqpostlen = 0;
 
   const handledp = () => {
     inputRef.current.click();
   };
+
 
   const handleimageupload = (e) => {
     let url = URL.createObjectURL(e.target.files[0]);
@@ -101,13 +102,14 @@ function Profile() {
       ? (reqpostlen = noofpost)
       : (reqpostlen = noofpost - (noofpost % 8) + 8);
   }
+
+
+
   return (
     <div className="w-full h-full flex flex-col justify-center items-center bg-[#414141]">
-      <div className="w-full p-4">
-        <Link to="/" className="flex flex-row justify-center items-center w-fit text-base font-poppins font-semibold bg-slate-500 p-2 rounded-md text-slate-100">
-          <HomeIcon className="stroke-slate-50 h-6 w-6 mr-1 bg-slate-600 p-1 rounded-sm "/> Home
-        </Link>
-      </div>
+      <Header>
+      </Header>
+      
       <h1
         key={inputs.id}
         className="text-7xl font-bold text-center mt-10 mb-10 font-custom text-slate-50"
@@ -167,9 +169,9 @@ function Profile() {
             </TableBody>
           </Table>
         </div>
-        <button className="flex items-center  bg-yellow-300  p-1 rounded-full  flex-row gap-2 mt-4">
-          <PlusIcon className="bg-orange-500 rounded-full stroke-slate-50 h-8 w-8" />
-          <Link to="/new" className="pr-2 font-semibold text-red-700">
+        <button className="flex items-center p-1 rounded-lg  flex-row gap-2 mt-4 bg-slate-300/20">
+          <PlusIcon className="border-2 border-orange-400 rounded-md stroke-slate-50 h-8 w-8" />
+          <Link to="/new" className="pr-2 font-semibold text-white">
             Create Post
           </Link>
         </button>
@@ -193,7 +195,9 @@ function Profile() {
                         title={post.title}
                         type={post.type}
                         content={post.content}
+                        client ={post.id}
                       ></Cards>
+                      
                     ))}
                   </div>
                   <Pagination className="mt-4">

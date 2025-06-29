@@ -18,18 +18,13 @@ import multer from 'multer';
 // });
 // db.connect();
 
-// const db = new pg.Client({
-//     user: "postgres_oki3_user",
-//     host: "dpg-ctr8auq3esus73baavl0-a.oregon-postgres.render.com",
-//     database: "postgres_oki3",
-//     password: "dhAeIOINDdjAPGR9hhtCeINHQbm167p2",
-//     port: 5432,
-// });
-// db.connect();
 
 const db = new pg.Client({
   connectionString: process.env.DATABASE_URL, 
   ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false, // Enable SSL in production
+  // ssl: {
+  //   rejectUnauthorized: false, // Use `true` in production with proper certificates
+  // },
 
 });
 
@@ -184,6 +179,44 @@ app.post("/profile/posts",async(req,res)=>{
   }
 });
 
+app.put("/blogs/:id", upload.single("image"), (req, res) => {
+  const { id } = req.params;
+  const { title, type, content } = req.body;
+  const image = req.file.filename;
+
+  const query = `
+    UPDATE posts
+    SET title = $1, type = $2, content = $3, image = $4
+    WHERE id = $5
+  `;
+  const values = [title, type, content, image, id];
+
+  db.query(query, values, (err, result) => {
+    if (err) {
+      console.error("Error updating data:", err);
+      res.status(500).json({ message: "Error updating blog post." });
+    } else {
+      res.status(200).json(result);
+    }
+  });
+});
+app.delete("/blogs/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deleteQuery = "DELETE FROM posts WHERE id = $1 RETURNING *";
+    const result = await db.query(deleteQuery, [id]);
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ message: "Blog not found" });
+    }
+
+    res.status(200).json({ message: "Blog deleted successfully", blog: result.rows[0] });
+  } catch (error) {
+    console.error("Error deleting blog:", error);
+    res.status(500).json({ message: "Error deleting blog" });
+  }
+});
 app.listen(port,()=>{
   console.log("App is listening on port:", process.env.PORT);
 })
